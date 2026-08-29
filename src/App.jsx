@@ -58,6 +58,10 @@ function getTitleTier(totalSeconds) {
 function nowTime() { return new Date().toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" }); }
 function fmtTime(iso) { try { return new Date(iso).toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" }); } catch { return ""; } }
 
+// Уникальные id без коллизий (Date.now() может повториться в пределах 1мс)
+let __c = 0;
+const uid = () => `${Date.now()}-${++__c}`;
+
 // Сжимает фото перед отправкой (иначе base64 будет весить мегабайты)
 function compressImageToDataUrl(file, maxDim = 900, quality = 0.72) {
   return new Promise((resolve, reject) => {
