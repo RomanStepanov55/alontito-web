@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Alontito — Политика конфиденциальности / Privacy Policy</title>
+<style>
+  body { margin: 0; background: #0C0C0F; color: #F2F2F5; font-family: -apple-system, 'Segoe UI', Inter, sans-serif; line-height: 1.6; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 40px 20px 80px; }
+  h1 { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
+  .sub { color: #8B8B94; font-size: 14px; margin-bottom: 28px; }
+  h2 { font-size: 16px; color: #8FA0FF; margin-top: 32px; margin-bottom: 8px; }
+  p, li { color: #C7C7CE; font-size: 14.5px; }
+  .card { background: #131316; border: 1px solid #232328; border-radius: 16px; padding: 20px 22px; margin-bottom: 20px; }
+  .warn { background: #1a1420; border: 1px solid rgba(250,180,80,0.3); color: #FAB450; padding: 14px 18px; border-radius: 12px; font-size: 13.5px; margin-bottom: 24px; }
+  .arch { background: #181A24; border: 1px solid rgba(79,110,255,0.25); border-radius: 12px; padding: 14px 18px; margin: 12px 0; font-size: 13.5px; color: #8FA0FF; }
+  .lang-toggle { position: fixed; top: 20px; right: 20px; background: #1C1C21; border: none; color: #8FA0FF; padding: 8px 16px; border-radius: 999px; font-size: 13px; cursor: pointer; }
+  .contact { text-align: center; margin-top: 32px; font-size: 15px; color: #F2F2F5; }
+  a { color: #8FA0FF; }
+  hr { border: none; border-top: 1px solid #232328; margin: 32px 0; }
+  [data-lang="en"] { display: none; }
+</style>
+</head>
+<body>
+<button class="lang-toggle" onclick="toggleLang()">EN / RU</button>
+<div class="wrap">
+
+  <div data-lang="ru">
+    <h1>Alontito — Политика конфиденциальности</h1>
+    <div class="sub">Последнее обновление: 27 августа 2026 · Автор: R_stepanov</div>
+
+    <div class="warn">
+      ⚠️ Это техническое описание того, что реально происходит с данными
+      в коде приложения — написано разработчиком, не юристом. Это не
+      заменяет юридически оформленную политику конфиденциальности и не
+      гарантирует соответствие 152-ФЗ "О персональных данных" РФ или
+      другим применимым законам.
+    </div>
+
+    <div class="card">
+      <h2>Какие данные собираются</h2>
+      <ul>
+        <li>Номер телефона — только для входа по SMS-коду</li>
+        <li>Юзернейм, отображаемое имя, эмодзи-аватар — вводится пользователем добровольно</li>
+        <li>Текст сообщений и фотографии, отправленные в чатах</li>
+        <li>Время активности в приложении — для расчёта титулов</li>
+        <li>Записи в разделе "Данные" — только если пользователь сам их туда добавил</li>
+      </ul>
+
+      <h2>Архитектура хранения — два независимых сервера</h2>
+      <div class="arch">
+        <b>identity-server</b> — единственное место, где хранится номер
+        телефона (зашифрован, AES-256-GCM) и пароль от раздела "Данные"
+        (необратимо хеширован, bcrypt). Недоступен напрямую из интернета —
+        принимает запросы только от messenger-server по секретному
+        внутреннему ключу.
+      </div>
+      <div class="arch">
+        <b>messenger-server</b> — хранит переписку (тексты сообщений
+        зашифрованы в базе, AES-256-GCM), фотографии и публичный профиль.
+        Номер телефона этот сервер не хранит вообще.
+      </div>
+
+      <h2>Кто имеет доступ</h2>
+      <ul>
+        <li>Пользователи видят только свою переписку и публичные профили собеседников</li>
+        <li>Администратор (номер +79950023339) видит список пользователей с замаскированными номерами (например, +7999••••39), может блокировать аккаунты и удалять отдельные сообщения — но не может прочитать пароль раздела "Данные" ни при каких условиях</li>
+        <li>Разработчик имеет доступ к серверам как оператор инфраструктуры</li>
+      </ul>
+
+      <h2>Как защищены данные</h2>
+      <ul>
+        <li>Шифрование сообщений в базе данных (AES-256-GCM)</li>
+        <li>Необратимое хеширование паролей хранилища (bcrypt)</li>
+        <li>Лимит попыток ввода SMS-кода (5 попыток, дальше нужен новый код)</li>
+        <li>Раздел "Данные" — отдельный пароль + свежий SMS-код при каждом входе; ключ шифрования содержимого выводится из пароля и не сохраняется на диске</li>
+        <li>Ограничение частоты запросов (rate limiting) против автоматического перебора</li>
+      </ul>
+
+      <h2>Удаление данных</h2>
+      <p>Написать на контактный номер ниже с просьбой удалить аккаунт — данные удаляются из обеих баз данных.</p>
+    </div>
+
+    <div class="contact">📞 +7 995 002-33-39</div>
+  </div>
+
+  <div data-lang="en">
+    <h1>Alontito — Privacy Policy</h1>
+    <div class="sub">Last updated: August 27, 2026 · Author: R_stepanov</div>
+
+    <div class="warn">
+      ⚠️ This is a technically honest description of what actually
+      happens to data in the app's code — written by the developer,
+      not a lawyer. It does not replace a legally drafted privacy
+      policy and does not guarantee compliance with Russian Federal
+      Law 152-FZ or any other applicable law.
+    </div>
+
+    <div class="card">
+      <h2>What data is collected</h2>
+      <ul>
+        <li>Phone number — only for SMS code login</li>
+        <li>Username, display name, emoji avatar — entered voluntarily by the user</li>
+        <li>Message text and photos sent in chats</li>
+        <li>Time spent active in the app — used to calculate titles</li>
+        <li>Entries in the "Data" vault — only if the user added them</li>
+      </ul>
+
+      <h2>Storage architecture — two independent servers</h2>
+      <div class="arch">
+        <b>identity-server</b> — the only place your phone number is
+        stored (encrypted, AES-256-GCM) and your vault password
+        (irreversibly hashed, bcrypt). Not directly reachable from the
+        internet — accepts requests only from messenger-server via a
+        secret internal key.
+      </div>
+      <div class="arch">
+        <b>messenger-server</b> — stores chat messages (encrypted at
+        rest, AES-256-GCM), photos, and public profile info. This
+        server never stores your phone number at all.
+      </div>
+
+      <h2>Who has access</h2>
+      <ul>
+        <li>Regular users only see their own conversations and other users' public profiles</li>
+        <li>The administrator (+79950023339) can see a user list with masked phone numbers (e.g. +7999••••39), can ban accounts and delete individual messages — but can never read a vault password under any circumstances</li>
+        <li>The developer has server access as the infrastructure operator</li>
+      </ul>
+
+      <h2>How data is protected</h2>
+      <ul>
+        <li>Messages encrypted at rest (AES-256-GCM)</li>
+        <li>Vault passwords hashed irreversibly (bcrypt)</li>
+        <li>SMS code attempt limit (5 tries, then a new code is required)</li>
+        <li>The "Data" vault requires a separate password plus a fresh SMS code on every unlock; the content encryption key is derived from the password and never written to disk</li>
+        <li>Rate limiting against automated brute-force attempts</li>
+      </ul>
+
+      <h2>Data deletion</h2>
+      <p>Contact the number below to request account deletion — data is removed from both databases.</p>
+    </div>
+
+    <div class="contact">📞 +7 995 002-33-39</div>
+  </div>
+
+</div>
+<script>
+  function toggleLang() {
+    const ru = document.querySelector('[data-lang="ru"]');
+    const en = document.querySelector('[data-lang="en"]');
+    const showRu = ru.style.display === 'none';
+    ru.style.display = showRu ? 'block' : 'none';
+    en.style.display = showRu ? 'none' : 'block';
+  }
+</script>
+</body>
+</html>
