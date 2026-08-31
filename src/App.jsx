@@ -1117,6 +1117,7 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
         });
       }
     } catch (e) { showError(e.message || "Не удалось загрузить диалоги"); }
+  }, [apiUrl, token]);
 
   // Живой поиск людей по юзернейму/номеру (не по уже открытым чатам)
   useEffect(() => {
