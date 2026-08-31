@@ -14,7 +14,7 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Space
 // вставь сюда публичный адрес своего задеплоенного бэкенда
 // (например, после деплоя на Render: https://alontito-backend.onrender.com)
 // ============================================================
-const API_URL = "https://messenger-server-4zfc.onrender.com";
+const API_URL = "https://ЗАМЕНИ-НА-СВОЙ-СЕРВЕР.onrender.com";
 
 const AGENT_ID = "agent";
 const REACTION_SET = ["👍", "❤️", "😂"];
@@ -1054,9 +1054,16 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
   const [profileOpen, setProfileOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
   const [vaultOpen, setVaultOpen] = useState(false);
-  const [aboutOpen, setAboutOpen] = useState(false);
-  const [leaderboardOpen, setLeaderboardOpen] = useState(false);
-  const [activeSeconds, setActiveSeconds] = useState(initialMe.totalActiveSeconds || 0);
+  const [globalError, setGlobalError] = useState("");
+  useEffect(() => {
+    if (globalError) {
+      const t = setTimeout(() => setGlobalError(""), 5000);
+      return () => clearTimeout(t);
+    }
+  }, [globalError]);
+
+  const showError = (msg) => setGlobalError(msg);
+
 
   const wsRef = useRef(null);
   const pendingRef = useRef({});
@@ -1109,8 +1116,7 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
           return next;
         });
       }
-    } catch (e) {}
-  }, [apiUrl, token]);
+    } catch (e) { showError(e.message || "Не удалось загрузить диалоги"); }
 
   // Живой поиск людей по юзернейму/номеру (не по уже открытым чатам)
   useEffect(() => {
@@ -1136,7 +1142,7 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
       });
       const data = await res.json();
       if (res.ok) { await loadConversations(); openChat(data.conversationId); }
-    } catch (e) {}
+    } catch (e) { showError(e.message || "Не удалось начать чат"); }
   }
 
   // Поиск людей для добавления в группу (дебаунс)
@@ -1272,7 +1278,7 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
         setCache((c) => ({ ...c, [id]: msgs }));
         const lastIncoming = [...msgs].reverse().find((m) => m.role === "them");
         if (lastIncoming) sendRead(id, lastIncoming.id);
-      } catch (e) {} finally { setLoadingConv(false); }
+      } catch (e) { showError(e.message || "Не удалось загрузить сообщения"); } finally { setLoadingConv(false); }
     } else {
       const list = cache[id];
       const lastIncoming = [...list].reverse().find((m) => m.role === "them");
@@ -1377,7 +1383,11 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
     const myMsg = { id: tempId, role: "me", text: raw, time: nowTime(), status: "sending", quote: replyTo ? { sender: replyTo.role === "me" ? "Вы" : "Собеседник", text: replyTo.text.slice(0, 80) } : undefined };
     setCache((c) => ({ ...c, [selectedId]: [...(c[selectedId] || []), myMsg] }));
     pendingRef.current[selectedId] = [...(pendingRef.current[selectedId] || []), tempId];
-    wsRef.current?.readyState === 1 && wsRef.current.send(JSON.stringify({ type: "message", conversationId: selectedId, text: raw }));
+    if (wsRef.current?.readyState !== 1) {
+      setCache((c) => ({ ...c, [selectedId]: (c[selectedId] || []).map((m) => m.id === tempId ? { ...m, status: "failed" } : m) }));
+    } else {
+      wsRef.current.send(JSON.stringify({ type: "message", conversationId: selectedId, text: raw }));
+    }
     setConversations((prev) => { const idx = prev.findIndex((c) => c.id === selectedId); if (idx === -1) return prev; const updated = { ...prev[idx], last_text: raw, last_time: new Date().toISOString() }; return [updated, ...prev.filter((_, i) => i !== idx)]; });
     setInput(""); setReplyTo(null);
   }
@@ -1394,7 +1404,11 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
       const myMsg = { id: tempId, role: "me", msgType: "image", text: dataUrl, time: nowTime(), status: "sending" };
       setCache((c) => ({ ...c, [selectedId]: [...(c[selectedId] || []), myMsg] }));
       pendingRef.current[selectedId] = [...(pendingRef.current[selectedId] || []), tempId];
-      wsRef.current?.readyState === 1 && wsRef.current.send(JSON.stringify({ type: "message", conversationId: selectedId, text: dataUrl, msgType: "image" }));
+      if (wsRef.current?.readyState !== 1) {
+      setCache((c) => ({ ...c, [selectedId]: (c[selectedId] || []).map((m) => m.id === tempId ? { ...m, status: "failed" } : m) }));
+    } else {
+      wsRef.current.send(JSON.stringify({ type: "message", conversationId: selectedId, text: dataUrl, msgType: "image" }));
+    }
       setConversations((prev) => {
         const idx = prev.findIndex((c) => c.id === selectedId);
         if (idx === -1) return prev;
@@ -1451,6 +1465,11 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
   return (
     <div className="w-full h-screen flex overflow-hidden" style={{ background: "#0C0C0F", fontFamily: "'Inter', sans-serif" }}>
       <style>{GLOBAL_STYLES}</style>
+      {globalError && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] px-4 py-2 rounded-xl text-[13px] font-medium shadow-lg" style={{ background: "#FF6B6B", color: "#fff", animation: "modalIn 0.2s ease-out both" }}>
+          {globalError}
+        </div>
+      )}
 
       <div className={`${mobileView === "list" ? "flex" : "hidden"} md:flex relative flex-col w-full md:w-[340px] flex-shrink-0 border-r`} style={{ borderColor: "#1B1B1F", background: "#0F0F12" }}>
         <div className="px-4 pt-5 pb-3">
