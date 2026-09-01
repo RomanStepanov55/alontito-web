@@ -14,7 +14,7 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Space
 // вставь сюда публичный адрес своего задеплоенного бэкенда
 // (например, после деплоя на Render: https://alontito-backend.onrender.com)
 // ============================================================
-const API_URL = "https://ЗАМЕНИ-НА-СВОЙ-СЕРВЕР.onrender.com";
+const API_URL = "https://messenger-server-4zfc.onrender.com";
 
 const AGENT_ID = "agent";
 const REACTION_SET = ["👍", "❤️", "😂"];
