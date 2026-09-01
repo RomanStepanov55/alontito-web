@@ -14,7 +14,7 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Space
 // вставь сюда публичный адрес своего задеплоенного бэкенда
 // (например, после деплоя на Render: https://alontito-backend.onrender.com)
 // ============================================================
-const API_URL = "https://messenger-server-4zfc.onrender.com";
+const API_URL = "https://ЗАМЕНИ-НА-СВОЙ-СЕРВЕР.onrender.com";
 
 const AGENT_ID = "agent";
 const REACTION_SET = ["👍", "❤️", "😂"];
@@ -429,7 +429,7 @@ function ProfilePanel({ apiUrl, token, me, setMe, onClose, onLogout, onOpenAbout
   return (
     <div className="fixed inset-0 z-50 flex justify-end" style={{ background: "rgba(0,0,0,0.55)" }} onClick={onClose}>
       <div onClick={(e) => e.stopPropagation()} className="panel-in w-full max-w-sm h-full flex flex-col" style={{ background: "#0F0F12", borderLeft: "1px solid #1B1B1F" }}>
-        <div className="flex items-center gap-3 px-5 py-4 border-b" style={{ borderColor: "#1B1B1F" }}>
+        <div className="flex items-center gap-3 px-5 border-b" style={{ borderColor: "#1B1B1F", paddingTop: "max(16px, env(safe-area-inset-top))", paddingBottom: 16 }}>
           <button onClick={onClose} className="p-1 active:scale-90 transition-transform"><ArrowLeft size={20} color="#F2F2F5" /></button>
           <h2 className="text-[17px] font-semibold" style={{ color: "#F2F2F5", fontFamily: "'Space Grotesk', sans-serif" }}>Профиль</h2>
         </div>
@@ -564,7 +564,7 @@ function AdminPanel({ apiUrl, token, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex justify-end" style={{ background: "rgba(0,0,0,0.55)" }} onClick={onClose}>
       <div onClick={(e) => e.stopPropagation()} className="panel-in w-full max-w-md h-full flex flex-col" style={{ background: "#0F0F12", borderLeft: "1px solid #1B1B1F" }}>
-        <div className="flex items-center gap-3 px-5 py-4 border-b" style={{ borderColor: "#1B1B1F" }}>
+        <div className="flex items-center gap-3 px-5 border-b" style={{ borderColor: "#1B1B1F", paddingTop: "max(16px, env(safe-area-inset-top))", paddingBottom: 16 }}>
           <button onClick={onClose} className="p-1 active:scale-90 transition-transform"><ArrowLeft size={20} color="#F2F2F5" /></button>
           <Shield size={18} color="#FAB450" />
           <h2 className="text-[17px] font-semibold" style={{ color: "#F2F2F5", fontFamily: "'Space Grotesk', sans-serif" }}>Админ-панель</h2>
@@ -624,7 +624,7 @@ function LeaderboardPanel({ apiUrl, token, myId, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex justify-end" style={{ background: "rgba(0,0,0,0.55)" }} onClick={onClose}>
       <div onClick={(e) => e.stopPropagation()} className="panel-in w-full max-w-md h-full flex flex-col" style={{ background: "#0F0F12", borderLeft: "1px solid #1B1B1F" }}>
-        <div className="flex items-center gap-3 px-5 py-4 border-b flex-shrink-0" style={{ borderColor: "#1B1B1F" }}>
+        <div className="flex items-center gap-3 px-5 border-b flex-shrink-0" style={{ borderColor: "#1B1B1F", paddingTop: "max(16px, env(safe-area-inset-top))", paddingBottom: 16 }}>
           <button onClick={onClose} className="p-1 active:scale-90 transition-transform"><ArrowLeft size={20} color="#F2F2F5" /></button>
           <Trophy size={18} color="#F5C542" />
           <h2 className="text-[17px] font-semibold" style={{ color: "#F2F2F5", fontFamily: "'Space Grotesk', sans-serif" }}>Рейтинг</h2>
@@ -774,7 +774,7 @@ function VaultPanel({ apiUrl, token, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex justify-end" style={{ background: "rgba(0,0,0,0.55)" }} onClick={onClose}>
       <div onClick={(e) => e.stopPropagation()} className="panel-in w-full max-w-md h-full flex flex-col" style={{ background: "#0F0F12", borderLeft: "1px solid #1B1B1F" }}>
-        <div className="flex items-center gap-3 px-5 py-4 border-b" style={{ borderColor: "#1B1B1F" }}>
+        <div className="flex items-center gap-3 px-5 border-b" style={{ borderColor: "#1B1B1F", paddingTop: "max(16px, env(safe-area-inset-top))", paddingBottom: 16 }}>
           <button onClick={onClose} className="p-1 active:scale-90 transition-transform"><ArrowLeft size={20} color="#F2F2F5" /></button>
           {stage === "unlocked" ? <Unlock size={18} color="#4ADE80" /> : <Lock size={18} color="#F2F2F5" />}
           <h2 className="text-[17px] font-semibold flex-1" style={{ color: "#F2F2F5", fontFamily: "'Space Grotesk', sans-serif" }}>Данные</h2>
@@ -978,7 +978,7 @@ function AboutPanel({ onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex justify-end" style={{ background: "rgba(0,0,0,0.55)" }} onClick={onClose}>
       <div onClick={(e) => e.stopPropagation()} className="panel-in w-full max-w-md h-full flex flex-col" style={{ background: "#0F0F12", borderLeft: "1px solid #1B1B1F" }}>
-        <div className="flex items-center gap-3 px-5 py-4 border-b flex-shrink-0" style={{ borderColor: "#1B1B1F" }}>
+        <div className="flex items-center gap-3 px-5 border-b flex-shrink-0" style={{ borderColor: "#1B1B1F", paddingTop: "max(16px, env(safe-area-inset-top))", paddingBottom: 16 }}>
           <button onClick={onClose} className="p-1 active:scale-90 transition-transform"><ArrowLeft size={20} color="#F2F2F5" /></button>
           <Info size={18} color="#8FA0FF" />
           <h2 className="text-[17px] font-semibold flex-1" style={{ color: "#F2F2F5", fontFamily: "'Space Grotesk', sans-serif" }}>О приложении</h2>
@@ -1054,16 +1054,9 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
   const [profileOpen, setProfileOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
   const [vaultOpen, setVaultOpen] = useState(false);
-  const [globalError, setGlobalError] = useState("");
-  useEffect(() => {
-    if (globalError) {
-      const t = setTimeout(() => setGlobalError(""), 5000);
-      return () => clearTimeout(t);
-    }
-  }, [globalError]);
-
-  const showError = (msg) => setGlobalError(msg);
-
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [leaderboardOpen, setLeaderboardOpen] = useState(false);
+  const [activeSeconds, setActiveSeconds] = useState(initialMe.totalActiveSeconds || 0);
 
   const wsRef = useRef(null);
   const pendingRef = useRef({});
@@ -1116,7 +1109,8 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
           return next;
         });
       }
-    } catch (e) { showError(e.message || "Не удалось загрузить диалоги"); }
+    } catch (e) {}
+  }, [apiUrl, token]);
 
   // Живой поиск людей по юзернейму/номеру (не по уже открытым чатам)
   useEffect(() => {
@@ -1142,7 +1136,7 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
       });
       const data = await res.json();
       if (res.ok) { await loadConversations(); openChat(data.conversationId); }
-    } catch (e) { showError(e.message || "Не удалось начать чат"); }
+    } catch (e) {}
   }
 
   // Поиск людей для добавления в группу (дебаунс)
@@ -1278,7 +1272,7 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
         setCache((c) => ({ ...c, [id]: msgs }));
         const lastIncoming = [...msgs].reverse().find((m) => m.role === "them");
         if (lastIncoming) sendRead(id, lastIncoming.id);
-      } catch (e) { showError(e.message || "Не удалось загрузить сообщения"); } finally { setLoadingConv(false); }
+      } catch (e) {} finally { setLoadingConv(false); }
     } else {
       const list = cache[id];
       const lastIncoming = [...list].reverse().find((m) => m.role === "them");
@@ -1383,11 +1377,7 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
     const myMsg = { id: tempId, role: "me", text: raw, time: nowTime(), status: "sending", quote: replyTo ? { sender: replyTo.role === "me" ? "Вы" : "Собеседник", text: replyTo.text.slice(0, 80) } : undefined };
     setCache((c) => ({ ...c, [selectedId]: [...(c[selectedId] || []), myMsg] }));
     pendingRef.current[selectedId] = [...(pendingRef.current[selectedId] || []), tempId];
-    if (wsRef.current?.readyState !== 1) {
-      setCache((c) => ({ ...c, [selectedId]: (c[selectedId] || []).map((m) => m.id === tempId ? { ...m, status: "failed" } : m) }));
-    } else {
-      wsRef.current.send(JSON.stringify({ type: "message", conversationId: selectedId, text: raw }));
-    }
+    wsRef.current?.readyState === 1 && wsRef.current.send(JSON.stringify({ type: "message", conversationId: selectedId, text: raw }));
     setConversations((prev) => { const idx = prev.findIndex((c) => c.id === selectedId); if (idx === -1) return prev; const updated = { ...prev[idx], last_text: raw, last_time: new Date().toISOString() }; return [updated, ...prev.filter((_, i) => i !== idx)]; });
     setInput(""); setReplyTo(null);
   }
@@ -1404,11 +1394,7 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
       const myMsg = { id: tempId, role: "me", msgType: "image", text: dataUrl, time: nowTime(), status: "sending" };
       setCache((c) => ({ ...c, [selectedId]: [...(c[selectedId] || []), myMsg] }));
       pendingRef.current[selectedId] = [...(pendingRef.current[selectedId] || []), tempId];
-      if (wsRef.current?.readyState !== 1) {
-      setCache((c) => ({ ...c, [selectedId]: (c[selectedId] || []).map((m) => m.id === tempId ? { ...m, status: "failed" } : m) }));
-    } else {
-      wsRef.current.send(JSON.stringify({ type: "message", conversationId: selectedId, text: dataUrl, msgType: "image" }));
-    }
+      wsRef.current?.readyState === 1 && wsRef.current.send(JSON.stringify({ type: "message", conversationId: selectedId, text: dataUrl, msgType: "image" }));
       setConversations((prev) => {
         const idx = prev.findIndex((c) => c.id === selectedId);
         if (idx === -1) return prev;
@@ -1465,14 +1451,9 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
   return (
     <div className="w-full h-screen flex overflow-hidden" style={{ background: "#0C0C0F", fontFamily: "'Inter', sans-serif" }}>
       <style>{GLOBAL_STYLES}</style>
-      {globalError && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] px-4 py-2 rounded-xl text-[13px] font-medium shadow-lg" style={{ background: "#FF6B6B", color: "#fff", animation: "modalIn 0.2s ease-out both" }}>
-          {globalError}
-        </div>
-      )}
 
-      <div className={`${mobileView === "list" ? "flex" : "hidden"} md:flex relative flex-col w-full md:w-[340px] flex-shrink-0 border-r`} style={{ borderColor: "#1B1B1F", background: "#0F0F12" }}>
-        <div className="px-4 pt-5 pb-3">
+      <div className={`${mobileView === "list" ? "flex" : "hidden"} sm:flex relative flex-col w-full sm:w-[340px] flex-shrink-0 border-r`} style={{ borderColor: "#1B1B1F", background: "#0F0F12" }}>
+        <div className="px-4 pb-3" style={{ paddingTop: "max(20px, env(safe-area-inset-top))" }}>
           <div className="flex items-center justify-between mb-3">
             <h1 className="text-[22px] font-semibold" style={{ color: "#F2F2F5", fontFamily: "'Space Grotesk', sans-serif" }}>Чаты</h1>
             <div className="flex items-center gap-1.5">
@@ -1558,19 +1539,19 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
 
         <button
           onClick={() => setGroupOpen(true)}
-          className="absolute bottom-5 right-5 w-14 h-14 rounded-full flex items-center justify-center active:scale-90 transition-transform z-10"
-          style={{ background: "linear-gradient(135deg, #4F6EFF, #7B5CFA)", boxShadow: "0 6px 20px rgba(79,110,255,0.45)" }}
+          className="absolute right-5 w-14 h-14 rounded-full flex items-center justify-center active:scale-90 transition-transform z-10"
+          style={{ background: "linear-gradient(135deg, #4F6EFF, #7B5CFA)", boxShadow: "0 6px 20px rgba(79,110,255,0.45)", bottom: "max(20px, env(safe-area-inset-bottom))" }}
           title="Создать группу"
         >
           <Users size={22} color="#fff" />
         </button>
       </div>
 
-      <div className={`${mobileView === "chat" ? "flex" : "hidden"} md:flex flex-col flex-1 min-w-0`}>
+      <div className={`${mobileView === "chat" ? "flex" : "hidden"} sm:flex flex-col flex-1 min-w-0`}>
         {selected ? (
           <>
-            <div className="flex items-center gap-3 px-4 py-3 border-b flex-shrink-0" style={{ borderColor: "#1B1B1F", background: "#0F0F12" }}>
-              <button onClick={() => setMobileView("list")} className="md:hidden p-1 -ml-1 active:scale-90 transition-transform" style={{ color: "#F2F2F5" }}><ArrowLeft size={20} /></button>
+            <div className="flex items-center gap-3 px-4 py-3 border-b flex-shrink-0" style={{ borderColor: "#1B1B1F", background: "#0F0F12", paddingTop: "max(12px, env(safe-area-inset-top))" }}>
+              <button onClick={() => setMobileView("list")} className="sm:hidden p-1 -ml-1 active:scale-90 transition-transform" style={{ color: "#F2F2F5" }}><ArrowLeft size={20} /></button>
               <Avatar chat={selected} size={38} />
               <div className="min-w-0">
                 <div className="font-medium text-[15px] truncate" style={{ color: "#F2F2F5", fontFamily: "'Space Grotesk', sans-serif" }}>{selected.name}</div>
@@ -1622,7 +1603,7 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
               </div>
             )}
 
-            <div className="flex items-center gap-2 px-4 py-3 border-t flex-shrink-0" style={{ borderColor: "#1B1B1F", background: "#0F0F12" }}>
+            <div className="flex items-center gap-2 px-4 py-3 border-t flex-shrink-0" style={{ borderColor: "#1B1B1F", background: "#0F0F12", paddingBottom: "max(12px, env(safe-area-inset-bottom))" }}>
               {selectedId !== AGENT_ID && (
                 <>
                   <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImagePick} className="hidden" />
