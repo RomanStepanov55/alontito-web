@@ -1126,35 +1126,37 @@ function App({ apiUrl, token, me: initialMe, onLogout }) {
     return () => clearTimeout(t);
   }, [query, apiUrl, token]);
 
-  async function startChatWithPerson(person) {
-    setQuery("");
-    setPeopleResults([]);
-    try {
-      const res = await fetch(`${apiUrl}/api/conversations/direct`, {
-        method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ identifier: person.username }),
-      });
-      const data = await res.json();
-      if (res.ok) { await loadConversations(); openChat(data.conversationId); }
-    } catch (e) {}
-  }
+async function startChatWithPerson(person) {
+  setQuery("");
+  setPeopleResults([]);
 
-  // Поиск людей для добавления в группу (дебаунс)
-  useEffect(() => {
-    if (!groupOpen || groupQuery.trim().length < 2) { setGroupResults([]); return; }
-    const t = setTimeout(async () => {
-      try {
-        const res = await fetch(`${apiUrl}/api/users/search?q=${encodeURIComponent(groupQuery.trim())}`, { headers: { Authorization: `Bearer ${token}` } });
-        const data = await res.json();
-        setGroupResults(Array.isArray(data) ? data : []);
-      } catch (e) {}
-    }, 350);
-    return () => clearTimeout(t);
-  }, [groupQuery, groupOpen, apiUrl, token]);
+  try {
+    const res = await fetch(`${apiUrl}/api/conversations/direct`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        identifier: person.username,
+      }),
+    });
 
-  function toggleGroupMember(person) {
-    setGroupSelected((prev) => (prev.some((p) => p.id === person.id) ? prev.filter((p) => p.id !== person.id) : [...prev, person]));
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.error || `Ошибка создания чата (${res.status})`);
+      return;
+    }
+
+    await loadConversations();
+    
+openChat(data.conversationId);
+  } catch (e) {
+    alert("Не удалось связаться с сервером. Попробуйте ещё раз.");
   }
+}
+
 
   async function createGroup() {
     setGroupError("");
