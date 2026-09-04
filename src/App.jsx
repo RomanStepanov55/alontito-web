@@ -184,50 +184,55 @@ function LoginScreen({ onLoggedIn }) {
   const [shake, setShake] = useState(false);
   const codeRefs = useRef([]);
 
-  async function requestCode() {
-    setError("");
-    if (!identifier.trim()) { setError("Введи номер телефона или юзернейм"); return; }
-    setLoading(true);
-    try {
-      const res = await fetch(`${API_URL}/api/auth/request-code`, {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ identifier: identifier.trim() }),
-      });
-      const text = await res.json();
+ async function requestCode() {
+  setError("");
 
-      console.log("API response:", text);
-
-      let data;
-      try{
-        data = JSON.parse(text);
-      } catch {
-        throw new Error("Сервер вернул HTML вместо JSON");
-      }
-      
-      if (!res.ok) throw new Error(data.error || "Ошибка");
-      setPhoneHint(data.phoneHint || "");
-      setStep("code");
-      setTimeout(() => codeRefs.current[0]?.focus(), 300);
-    } catch (e) {
-      setError(e.message);
-    } finally { setLoading(false); }
+  if (!identifier.trim()) {
+    setError("Введи номер телефона или юзернейм");
+    return;
   }
 
-  async function verify(fullCode) {
-    setError(""); setLoading(true);
+  setLoading(true);
+
+  try {
+    const res = await fetch(`${API_URL}/api/auth/request-code`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        identifier: identifier.trim(),
+      }),
+    });
+
+    const text = await res.text();
+
+    let data;
     try {
-      const res = await fetch(`${API_URL}/api/auth/verify-code`, {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ identifier: identifier.trim(), code: fullCode }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Неверный код");
-      onLoggedIn(data.token, data.user);
-    } catch (e) {
-      setError(e.message); setShake(true); setCode(["", "", "", "", "", ""]);
-      setTimeout(() => { setShake(false); codeRefs.current[0]?.focus(); }, 500);
-    } finally { setLoading(false); }
+      data = JSON.parse(text);
+    } catch {
+      console.error("Сервер вернул не JSON:", text);
+      throw new Error(`Сервер вернул HTML вместо JSON (${res.status})`);
+    }
+
+    if (!res.ok) {
+      throw new Error(data.error || "Ошибка");
+    }
+
+    setPhoneHint(data.phoneHint || "");
+    setStep("code");
+
+    setTimeout(() => {
+codeRefs.current[0]?.focus();
+    }, 300);
+
+  } catch (e) {
+    console.error(e);
+    setError(e.message || "Не удалось отправить код");
+  } finally {
+    setLoading(false);
   }
+}
 
   function onCodeChange(i, val) {
     if (!/^\d?$/.test(val)) return;
