@@ -209,7 +209,7 @@ function LoginScreen({ onLoggedIn }) {
       setStep("code");
       setTimeout(() => codeRefs.current[0]?.focus(), 300);
     } catch (e) {
-      setError(e.message === "Failed to fetch" ? "Не удалось достучаться до сервера — проверь адрес и что он запущен" : e.message);
+      setError(e.message);
     } finally { setLoading(false); }
   }
 
