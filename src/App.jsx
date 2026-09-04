@@ -193,7 +193,17 @@ function LoginScreen({ onLoggedIn }) {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ identifier: identifier.trim() }),
       });
-      const data = await res.json();
+      const text = await res.json();
+
+      console.log("API response:", text);
+
+      let data;
+      try{
+        data = JSON.parse(text);
+      } catch {
+        throw new Error("Сервер вернул HTML вместо JSON");
+      }
+      
       if (!res.ok) throw new Error(data.error || "Ошибка");
       setPhoneHint(data.phoneHint || "");
       setStep("code");
